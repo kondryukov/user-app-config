@@ -9,5 +9,3 @@ spring:
           default-label: main
 server:
   port: 8888
-
-
