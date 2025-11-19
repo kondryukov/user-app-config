@@ -6,24 +6,13 @@ spring:
     gateway:
       routes:
         - id: user-service
-          uri: lb://user-service
+          uri: lb://circuit-breaker-service
           predicates:
             - Path=/users/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: user-service
-                fallbackUri: forward:/fallback/users
         - id: notification-service
-          uri: lb://notification-service
+          uri: lb://circuit-breaker-service
           predicates:
             - Path=/notification/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: notification-service
-                fallbackUri: forward:/fallback/notification
-
 eureka:
   client:
     register-with-eureka: true
@@ -33,19 +22,5 @@ eureka:
   instance:
     hostname: localhost
 
-resilience4j:
-  timelimiter:
-    instances:
-      notification-service:
-        timeoutDuration: 30s
-
-  circuitbreaker:
-    instances:
-      notification-service:
-        slidingWindowSize: 20
-        minimumNumberOfCalls: 10
-        failureRateThreshold: 50
-        slowCallDurationThreshold: 25s
-        slowCallRateThreshold: 100
 server:
   port: 8787
