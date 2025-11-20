@@ -1,8 +1,10 @@
 spring:
   application:
     name: user-service
+  kafka:
+    bootstrap-servers: kafka:9092
   datasource:
-    url: jdbc:postgresql://localhost:5432/userdb
+    url: jdbc:postgresql://db:5432/userdb
     username: userapp
     password: password
   jpa:
@@ -23,6 +25,4 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    hostname: localhost
+      defaultZone: http://eureka-server:8761/eureka/
